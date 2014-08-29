@@ -10,40 +10,97 @@
 
 @interface PGImageViewController ()
 
+@property (nonatomic, strong) UIImageView *renderedImageView;
+@property (nonatomic, strong) UIToolbar *actionToolBar;
+
 @end
 
 @implementation PGImageViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+	
+	[self configureViews];
+	[self layoutViews];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)configureViews
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	[self.view addSubview:self.renderedImageView];
+	[self.view addSubview:self.actionToolBar];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)layoutViews
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+	NSMutableArray *sizeConstraints = [self.actionToolBar ul_fixedSize:CGSizeMake(0.0f, 60.0f)];
+	for (NSLayoutConstraint *constraint in sizeConstraints) {
+		constraint.priority = UILayoutPriorityDefaultHigh;
+	}
+	
+	[self.view addConstraints:[self.actionToolBar ul_pinWithInset:UIEdgeInsetsMake(0.0f, 0.0f, kUIViewUnpinInset, 0.0f)]];
+	[self.view addConstraints:[self.renderedImageView ul_pinWithInset:UIEdgeInsetsZero]];
 }
-*/
+
+#pragma mark - Image View
+
+- (UIImageView *)renderedImageView
+{
+	if (!_renderedImageView) {
+		_renderedImageView = [[UIImageView alloc] initWithImage:nil];
+		_renderedImageView.contentMode = UIViewContentModeScaleAspectFit;
+		[_renderedImageView ul_enableAutoLayout];
+	}
+	
+	return _renderedImageView;
+}
+
+#pragma mark - Action Tool Bar
+
+- (UIToolbar *)actionToolBar
+{
+	if (!_actionToolBar) {
+		_actionToolBar = [[UIToolbar alloc] initWithFrame:CGRectZero];
+		_actionToolBar.items = @[[self loadImageButtonItem],[self flexibleItem],[self filterButtonItem]];
+		[_actionToolBar ul_enableAutoLayout];
+	}
+	
+	return _actionToolBar;
+}
+
+- (UIBarButtonItem *)flexibleItem
+{
+	return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+														 target:nil
+														 action:NULL];
+}
+
+- (UIBarButtonItem *)filterButtonItem
+{
+	UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithTitle:@"Filters"
+																   style:UIBarButtonItemStylePlain
+																  target:self
+																  action:@selector(handleFilterButtonItemTapped:)];
+	return buttonItem;
+}
+
+- (void)handleFilterButtonItemTapped:(id)sender
+{
+
+}
+
+- (UIBarButtonItem *)loadImageButtonItem
+{
+	UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithTitle:@"Load Image"
+																   style:UIBarButtonItemStylePlain
+																  target:self
+																  action:@selector(handleLoadImageButtonItemTapped:)];
+	return buttonItem;
+}
+
+- (void)handleLoadImageButtonItemTapped:(id)sender
+{
+
+}
 
 @end
