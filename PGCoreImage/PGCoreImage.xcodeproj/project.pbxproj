@@ -19,6 +19,7 @@
 		0F87C88319B126FA00E79260 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F87C86B19B126FA00E79260 /* UIKit.framework */; };
 		0F87C88B19B126FA00E79260 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0F87C88919B126FA00E79260 /* InfoPlist.strings */; };
 		0F87C88D19B126FA00E79260 /* PGCoreImageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F87C88C19B126FA00E79260 /* PGCoreImageTests.m */; };
+		0F87C89719B1387300E79260 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F87C89619B1387300E79260 /* CoreImage.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		0F87C88819B126FA00E79260 /* PGCoreImageTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGCoreImageTests-Info.plist"; sourceTree = "<group>"; };
 		0F87C88A19B126FA00E79260 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0F87C88C19B126FA00E79260 /* PGCoreImageTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGCoreImageTests.m; sourceTree = "<group>"; };
+		0F87C89619B1387300E79260 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F87C89719B1387300E79260 /* CoreImage.framework in Frameworks */,
 				0F87C86A19B126FA00E79260 /* CoreGraphics.framework in Frameworks */,
 				0F87C86C19B126FA00E79260 /* UIKit.framework in Frameworks */,
 				0F87C86819B126FA00E79260 /* Foundation.framework in Frameworks */,
@@ -96,6 +99,7 @@
 		0F87C86619B126FA00E79260 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0F87C89619B1387300E79260 /* CoreImage.framework */,
 				0F87C86719B126FA00E79260 /* Foundation.framework */,
 				0F87C86919B126FA00E79260 /* CoreGraphics.framework */,
 				0F87C86B19B126FA00E79260 /* UIKit.framework */,
@@ -438,6 +442,7 @@
 				0F87C89219B126FA00E79260 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0F87C89319B126FA00E79260 /* Build configuration list for PBXNativeTarget "PGCoreImageTests" */ = {
 			isa = XCConfigurationList;
@@ -446,6 +451,7 @@
 				0F87C89519B126FA00E79260 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
