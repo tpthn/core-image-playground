@@ -11,6 +11,7 @@
 @interface PGImageViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UIImageView *renderedImageView;
+@property (nonatomic, strong) __block UIImagePickerController *imagePicker;
 
 @end
 
@@ -99,6 +100,11 @@
 	
 	UIActionSheet *mediaActionSheet = [UIActionSheet ul_actionSheetWithTitle:nil cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@[kCameraTitle, kLibraryTitle] onCancel:NULL optionSelected:selectionBlock];
 	[mediaActionSheet showInView:self.view];
+	
+	//--preload image picker on background thread
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
+		[self imagePicker];
+	});
 }
 
 #pragma mark - Media Handling
@@ -113,16 +119,24 @@
 	[self presentMediaPickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
 }
 
+- (UIImagePickerController *)imagePicker
+{
+	if (!_imagePicker) {
+		_imagePicker = [[UIImagePickerController alloc] init];
+		_imagePicker.delegate = self;
+		NSArray *mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
+		NSArray *imageTypes = [mediaTypes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(SELF contains %@)", @"image"]];
+		_imagePicker.mediaTypes = imageTypes;
+	}
+	
+	return _imagePicker;
+}
+
 - (void)presentMediaPickerWithSourceType:(UIImagePickerControllerSourceType)sourceType
 {
-	UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-	imagePicker.delegate = self;
-	NSArray *mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:sourceType];
-	NSArray *imageTypes = [mediaTypes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(SELF contains %@)", @"image"]];
-	imagePicker.mediaTypes = imageTypes;
-	imagePicker.sourceType = sourceType;
+	self.imagePicker.sourceType = sourceType;
 	
-	[self.navigationController presentViewController:imagePicker animated:YES completion:NULL];
+	[self.navigationController presentViewController:self.imagePicker animated:YES completion:NULL];
 }
 
 @end
