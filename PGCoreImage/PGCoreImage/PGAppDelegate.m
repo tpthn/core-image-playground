@@ -17,7 +17,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
 	
 	PGImageViewController *imageViewController = [[PGImageViewController alloc] init];
-	self.window.rootViewController = imageViewController;
+	UINavigationController *navigationHolder = [[UINavigationController alloc] initWithRootViewController:imageViewController];
+	self.window.rootViewController = navigationHolder;
 	
     [self.window makeKeyAndVisible];
     return YES;

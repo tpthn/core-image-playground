@@ -8,10 +8,9 @@
 
 #import "PGImageViewController.h"
 
-@interface PGImageViewController ()
+@interface PGImageViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UIImageView *renderedImageView;
-@property (nonatomic, strong) UIToolbar *actionToolBar;
 
 @end
 
@@ -27,18 +26,14 @@
 
 - (void)configureViews
 {
+	self.navigationItem.leftBarButtonItem = [self loadImageButtonItem];
+	self.navigationItem.rightBarButtonItem = [self filterButtonItem];
+	
 	[self.view addSubview:self.renderedImageView];
-	[self.view addSubview:self.actionToolBar];
 }
 
 - (void)layoutViews
 {
-	NSMutableArray *sizeConstraints = [self.actionToolBar ul_fixedSize:CGSizeMake(0.0f, 60.0f)];
-	for (NSLayoutConstraint *constraint in sizeConstraints) {
-		constraint.priority = UILayoutPriorityDefaultHigh;
-	}
-	
-	[self.view addConstraints:[self.actionToolBar ul_pinWithInset:UIEdgeInsetsMake(0.0f, 0.0f, kUIViewUnpinInset, 0.0f)]];
 	[self.view addConstraints:[self.renderedImageView ul_pinWithInset:UIEdgeInsetsZero]];
 }
 
@@ -56,17 +51,6 @@
 }
 
 #pragma mark - Action Tool Bar
-
-- (UIToolbar *)actionToolBar
-{
-	if (!_actionToolBar) {
-		_actionToolBar = [[UIToolbar alloc] initWithFrame:CGRectZero];
-		_actionToolBar.items = @[[self loadImageButtonItem],[self flexibleItem],[self filterButtonItem]];
-		[_actionToolBar ul_enableAutoLayout];
-	}
-	
-	return _actionToolBar;
-}
 
 - (UIBarButtonItem *)flexibleItem
 {
@@ -100,7 +84,45 @@
 
 - (void)handleLoadImageButtonItemTapped:(id)sender
 {
+	static NSString *kCameraTitle = @"Camera";
+	static NSString *kLibraryTitle = @"Photo Library";
+	
+	__weak PGImageViewController *selfPointer = self;
+	
+	OptionSelectedBlock selectionBlock = ^(UIActionSheet *actionSheet, NSInteger buttonIndex, NSString *buttonTitle){
+		if ([buttonTitle isEqualToString:kCameraTitle]) {
+			[selfPointer showCamera];
+		} else if ([buttonTitle isEqualToString:kLibraryTitle]) {
+			[selfPointer showPhotoLibrary];
+		}
+	};
+	
+	UIActionSheet *mediaActionSheet = [UIActionSheet ul_actionSheetWithTitle:nil cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@[kCameraTitle, kLibraryTitle] onCancel:NULL optionSelected:selectionBlock];
+	[mediaActionSheet showInView:self.view];
+}
 
+#pragma mark - Media Handling
+
+- (void)showCamera
+{
+	[self presentMediaPickerWithSourceType:UIImagePickerControllerSourceTypeCamera];
+}
+
+- (void)showPhotoLibrary
+{
+	[self presentMediaPickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+}
+
+- (void)presentMediaPickerWithSourceType:(UIImagePickerControllerSourceType)sourceType
+{
+	UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+	imagePicker.delegate = self;
+	NSArray *mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:sourceType];
+	NSArray *imageTypes = [mediaTypes filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(SELF contains %@)", @"image"]];
+	imagePicker.mediaTypes = imageTypes;
+	imagePicker.sourceType = sourceType;
+	
+	[self.navigationController presentViewController:imagePicker animated:YES completion:NULL];
 }
 
 @end
