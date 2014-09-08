@@ -21,6 +21,9 @@
 		0F87C88D19B126FA00E79260 /* PGCoreImageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F87C88C19B126FA00E79260 /* PGCoreImageTests.m */; };
 		0F87C89719B1387300E79260 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F87C89619B1387300E79260 /* CoreImage.framework */; };
 		0F87C89A19B1396100E79260 /* PGImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F87C89919B1396100E79260 /* PGImageViewController.m */; };
+		0FA65CE519BE362300021F0F /* preset-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0FA65CE419BE362300021F0F /* preset-1.jpg */; };
+		0FA65CE719BE36F100021F0F /* preset-2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0FA65CE619BE36F100021F0F /* preset-2.jpg */; };
+		0FA65CE919BE38E400021F0F /* preset-3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0FA65CE819BE38E400021F0F /* preset-3.jpg */; };
 		DBE4FD765AB841C68228F6F3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92762649BDA949DEB0251B6D /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +57,9 @@
 		0F87C89619B1387300E79260 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		0F87C89819B1396100E79260 /* PGImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGImageViewController.h; sourceTree = "<group>"; };
 		0F87C89919B1396100E79260 /* PGImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGImageViewController.m; sourceTree = "<group>"; };
+		0FA65CE419BE362300021F0F /* preset-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "preset-1.jpg"; sourceTree = "<group>"; };
+		0FA65CE619BE36F100021F0F /* preset-2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "preset-2.jpg"; sourceTree = "<group>"; };
+		0FA65CE819BE38E400021F0F /* preset-3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "preset-3.jpg"; sourceTree = "<group>"; };
 		6CDD81E96DC0487A96377ECA /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		92762649BDA949DEB0251B6D /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -120,6 +126,7 @@
 		0F87C86D19B126FA00E79260 /* PGCoreImage */ = {
 			isa = PBXGroup;
 			children = (
+				0FA65CE319BE35CE00021F0F /* Preset Images */,
 				0F87C87619B126FA00E79260 /* PGAppDelegate.h */,
 				0F87C87719B126FA00E79260 /* PGAppDelegate.m */,
 				0F87C87919B126FA00E79260 /* Images.xcassets */,
@@ -157,6 +164,16 @@
 				0F87C88919B126FA00E79260 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0FA65CE319BE35CE00021F0F /* Preset Images */ = {
+			isa = PBXGroup;
+			children = (
+				0FA65CE419BE362300021F0F /* preset-1.jpg */,
+				0FA65CE619BE36F100021F0F /* preset-2.jpg */,
+				0FA65CE819BE38E400021F0F /* preset-3.jpg */,
+			);
+			name = "Preset Images";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,6 +254,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FA65CE919BE38E400021F0F /* preset-3.jpg in Resources */,
+				0FA65CE719BE36F100021F0F /* preset-2.jpg in Resources */,
+				0FA65CE519BE362300021F0F /* preset-1.jpg in Resources */,
 				0F87C87219B126FA00E79260 /* InfoPlist.strings in Resources */,
 				0F87C87A19B126FA00E79260 /* Images.xcassets in Resources */,
 			);

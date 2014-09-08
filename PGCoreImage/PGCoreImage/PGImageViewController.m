@@ -71,7 +71,7 @@
 
 - (void)handleFilterButtonItemTapped:(id)sender
 {
-
+	self.renderedImageView.image = nil;
 }
 
 - (UIBarButtonItem *)loadImageButtonItem
@@ -87,6 +87,7 @@
 {
 	static NSString *kCameraTitle = @"Camera";
 	static NSString *kLibraryTitle = @"Photo Library";
+	static NSString *kPreloadTitle = @"Presets";
 	
 	__weak PGImageViewController *selfPointer = self;
 	
@@ -95,16 +96,13 @@
 			[selfPointer showCamera];
 		} else if ([buttonTitle isEqualToString:kLibraryTitle]) {
 			[selfPointer showPhotoLibrary];
+		} else if ([buttonTitle isEqualToString:kPreloadTitle]) {
+			[selfPointer showPresetImages];
 		}
 	};
 	
-	UIActionSheet *mediaActionSheet = [UIActionSheet ul_actionSheetWithTitle:nil cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@[kCameraTitle, kLibraryTitle] onCancel:NULL optionSelected:selectionBlock];
+	UIActionSheet *mediaActionSheet = [UIActionSheet ul_actionSheetWithTitle:nil cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@[kCameraTitle, kLibraryTitle, kPreloadTitle] onCancel:NULL optionSelected:selectionBlock];
 	[mediaActionSheet showInView:self.view];
-	
-	//--preload image picker on background thread
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
-		[self imagePicker];
-	});
 }
 
 #pragma mark - Media Handling
@@ -117,6 +115,13 @@
 - (void)showPhotoLibrary
 {
 	[self presentMediaPickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+}
+
+- (void)presentMediaPickerWithSourceType:(UIImagePickerControllerSourceType)sourceType
+{
+	self.imagePicker.sourceType = sourceType;
+	
+	[self.navigationController presentViewController:self.imagePicker animated:YES completion:NULL];
 }
 
 - (UIImagePickerController *)imagePicker
@@ -132,11 +137,22 @@
 	return _imagePicker;
 }
 
-- (void)presentMediaPickerWithSourceType:(UIImagePickerControllerSourceType)sourceType
+#pragma mark - UIImagePicker Delegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-	self.imagePicker.sourceType = sourceType;
+	UIImage *image = info[UIImagePickerControllerOriginalImage];
 	
-	[self.navigationController presentViewController:self.imagePicker animated:YES completion:NULL];
+	self.renderedImageView.image = image;
+	
+	[picker dismissViewControllerAnimated:YES completion:NULL];
+}
+
+#pragma mark - Preset Images
+
+- (void)showPresetImages
+{
+	self.renderedImageView.image = [UIImage imageNamed:@"preset-3.jpg"];
 }
 
 @end
